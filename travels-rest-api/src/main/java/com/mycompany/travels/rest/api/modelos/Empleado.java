@@ -50,6 +50,11 @@ public class Empleado extends Entidad {
                && contraseña.length() <= 50;
     }
 
+    public String getNombreRol() {
+        return nombreRol;
+    }
+    
+
     public String getNombre() {
         return nombre;
     }

@@ -5,8 +5,6 @@
 package com.mycompany.travels.rest.api.servicios;
 
 import com.mycompany.travels.rest.api.db.EmpleadosDB;
-import com.mycompany.travels.rest.api.exceptions.CamposVaciosException;
-import com.mycompany.travels.rest.api.exceptions.DatosMuyLargosException;
 import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.interfaces.CreacionEntidad;
@@ -18,35 +16,26 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-public class EmpleadosCrudService implements CreacionEntidad<Empleado>, EdicionEntidad<Empleado> {
+public class EmpleadosCrudService extends CrudService implements CreacionEntidad<Empleado>, EdicionEntidad<Empleado> {
     
     private final EmpleadosDB db = new EmpleadosDB();
 
     @Override
     public void crear(Empleado entidad) throws ExceptionGenerica {
         
-        if(!entidad.datosCompletos()){
-            throw new CamposVaciosException();
-        }
-        if(!entidad.datosTamañoCorrecto()){
-            throw new DatosMuyLargosException();
-        }
+        revisarDatosCorrectos(entidad);
+        
         if(db.existeEntidad(entidad.getNombre())){
             throw new EntidadDuplicadaException("El usuario "+ entidad.getNombre() + " ya existe!");
         }
-        
+       
         db.crear(entidad);
         
     }
 
     @Override
     public void editar(Empleado entidad) throws ExceptionGenerica {
-        if(!entidad.datosCompletos()){
-            throw new CamposVaciosException();
-        }
-        if(!entidad.datosTamañoCorrecto()){
-            throw new DatosMuyLargosException();
-        }
+        revisarDatosCorrectos(entidad);
         
         // si hay un nombre igual, verificar que tengan el mismo ID
         Empleado empleado = db.buscar(entidad.getNombre());
