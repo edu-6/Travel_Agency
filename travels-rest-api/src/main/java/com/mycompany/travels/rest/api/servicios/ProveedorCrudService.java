@@ -8,6 +8,7 @@ import com.mycompany.travels.rest.api.db.ProveedorDB;
 import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.interfaces.BuscarTodos;
+import com.mycompany.travels.rest.api.interfaces.BusquedaUnitariaString;
 import com.mycompany.travels.rest.api.interfaces.CreacionEntidad;
 import com.mycompany.travels.rest.api.interfaces.EdicionEntidad;
 import com.mycompany.travels.rest.api.modelos.Proveedor;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  * @author edu
  */
 public class ProveedorCrudService extends CrudService implements CreacionEntidad<Proveedor>, EdicionEntidad<Proveedor>,
-        BuscarTodos<Proveedor>{
+        BuscarTodos<Proveedor>, BusquedaUnitariaString<Proveedor>{
     
     private final ProveedorDB db = new ProveedorDB();
 
@@ -44,19 +45,19 @@ public class ProveedorCrudService extends CrudService implements CreacionEntidad
         }
         
         db.editar(entidad);
-         
-    }
-    
-    public Proveedor buscarProveedor(String nombre) throws ExceptionGenerica{
-        if(nombre == null || nombre.isBlank()){
-            throw new ExceptionGenerica("Busqueda vacia");
-        }
-        
-        return db.buscar(nombre);
     }
 
     @Override
     public ArrayList<Proveedor> buscarTodos() throws ExceptionGenerica {
         return db.buscarTodos();
+    }
+
+    @Override
+    public Proveedor buscar(String nombre) throws ExceptionGenerica {
+       if(nombre == null || nombre.isBlank()){
+            throw new ExceptionGenerica("Busqueda vacia");
+        }
+        
+        return db.buscar(nombre);
     }
 }
