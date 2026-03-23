@@ -81,7 +81,7 @@ public class PaquetesDB implements CreacionReturnId<Paquete>, EdicionEntidad<Paq
             ps.setInt(6, entidad.getCapacidadMaxima());
             ps.setInt(7, entidad.getId_destino());
             ps.setBoolean(8, entidad.isActivo());
-
+            ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
