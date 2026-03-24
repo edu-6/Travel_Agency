@@ -33,7 +33,7 @@ CREATE TABLE cliente (
      cliente_fecha_nacimiento DATE NOT NULL,
      cliente_telefono VARCHAR(20) NOT NULL,
      cliente_correo VARCHAR(50) NOT NULL,
-     CONSTRAINT fk_cliente_nacionalidad FOREIGN KEY (cliente_nacionalidad) REFERENCES nacionalidad(nacionalidad_id) ON DELETE CASCADE
+     CONSTRAINT fk_cliente_nacionalidad FOREIGN KEY (cliente_id_nacionalidad) REFERENCES nacionalidad(nacionalidad_id) ON DELETE CASCADE
 );
 
 
@@ -97,7 +97,7 @@ CREATE TABLE reservacion(
     rs_id_estado          INTEGER NOT NULL,
     rs_fecha_creacion     DATE NOT NULL,
     rs_fecha_viaje	  DATE NOT NULL,
-    rs_costo_total	  DECIMAL(15,2) NOT NULL,
+    rs_total_pagado	  DECIMAL(15,2) NOT NULL,
     CONSTRAINT fk_reservacion_creador FOREIGN KEY  (rs_id_agente_creador) REFERENCES empleado(empleado_id) ON DELETE CASCADE,
     CONSTRAINT fk_reservacion_estado FOREIGN KEY  (rs_id_estado) REFERENCES estado_reservacion(estado_reservacion_id) ON DELETE CASCADE,
     CONSTRAINT fk_reservacion_titular FOREIGN KEY  (rs_id_titular) REFERENCES cliente(cliente_id) ON DELETE CASCADE

@@ -48,7 +48,14 @@ public class PasajerosDB implements CreacionEntidad<PasajeroRequest>, BuscarVari
             this.crear(pasajeroRequest);
         }
     }
+    
 
+    /**
+     * Busca prajeros de una reservación
+     * @param idReservacion
+     * @return
+     * @throws ExceptionGenerica 
+     */
     @Override
     public ArrayList<PasajeroResponse> buscarVariosInt(int idReservacion) throws ExceptionGenerica {
         ArrayList<PasajeroResponse> lista = new ArrayList<>();
