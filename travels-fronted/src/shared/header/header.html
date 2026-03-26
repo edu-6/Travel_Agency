@@ -1,0 +1,39 @@
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <i class="bi bi-bootstrap" style="font-size: 2rem;"></i>
+            <span class="fs-4">Horizontes sin limites</span>
+        </a>
+        <ul class="nav nav-pills">
+
+        @if(operador){
+
+            
+            <li class="nav-item">
+                <a routerLink="/destinos" class="nav-link" routerLinkActive="active" aria-current="page"
+                    [routerLinkActiveOptions]="{exact: true}">Destinos</a>
+            </li>
+            
+            <li class="nav-item"><a routerLink="/admins-sistema" routerLinkActive="active" class="nav-link">Paquetes</a></li>
+            <li class="nav-item"><a routerLink="/files" routerLinkActive="active" class="nav-link">Proveedores</a></li>
+        }
+        @if(administrativo){
+            <li class="nav-item"><a routerLink="/juegos" routerLinkActive="active" class="nav-link">Juegos</a></li>
+            <li class="nav-item"><a routerLink="/admins-empresa" routerLinkActive="active" class="nav-link">Admins Empresa</a></li>
+        }
+
+        @if(superAdmin){
+            <li class="nav-item"><a routerLink="/juegos" routerLinkActive="active" class="nav-link">Juegos</a></li>
+            <li class="nav-item"><a routerLink="/grupos" routerLinkActive="active" class="nav-link">Grupos</a></li>
+            <li class="nav-item"><a routerLink="/cartera" routerLinkActive="active" class="nav-link">Cartera</a></li>
+            <li class="nav-item"><a routerLink="/gamers/perfil" routerLinkActive="active" class="nav-link">Perfil</a></li>
+        }
+            <button class="btn btn-link text-danger text-decoration-none d-flex align-items-center" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+            </button>
+        </ul>
+    </header>
+</div>
+
+
+
