@@ -1,0 +1,93 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-10 col-lg-7">
+
+
+                @if (hayError) {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error! </strong> {{mensajeError.detalles}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    }-
+
+                    @if (creadoConExito) {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Exito! </strong> Se registró exitosamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    }
+
+
+                    @if (editadoConExito && intentoEnviarlo) {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Exito! </strong> Se editó exitosamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    }
+
+
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+                            @if(enEdicion()){
+                            <h3 class="mb-5 text-center">{{mensajeEdicion}}</h3>
+                            }@else {
+                            <h3 class="mb-5 text-center">{{mensajeCreacion}}</h3>
+                            }
+
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" name="name" formControlName="nombre"
+                                [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo">
+                            <div class="invalid-feedback">
+                                <div>
+                                    Nombre (Max 30)
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <label class="form-label">Datos de contacto (Tel/Correo):</label>
+                            <input type="text" class="form-control" name="name" formControlName="contactos"
+                                [class.is-invalid]="formulario.controls['contactos'].invalid && intentoEnviarlo">
+                            <div class="invalid-feedback">
+                                <div>
+                                    Contactos (Max 40)
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-5">
+                                    <br>
+                                    <label class="form-label">Pais de operacion:</label>
+                                    <select class="form-control" id="pais" formControlName="id_pais" name="id_pais">
+                                        <option *ngFor="let p of paises" [value]="p.id">
+                                            {{ p.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class=" col-md-5 form-check form-switch">
+                                    <br>
+                                    <label class="form-label" for="pais">Tipo de servicio:</label>
+                                    <select class="form-control" id="pais" formControlName="id_tipo_servicio" name="pais">
+                                        <option *ngFor="let t of tiposServicio" [value]="t.id">
+                                            {{ t.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class=" mt-4">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Guardar</button>
+                            </div>
+                            <div class="mt-4">
+                                <button type="button" routerLink="/proveedores"
+                                    class="btn btn-secondary py-3 w-100">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

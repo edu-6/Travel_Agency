@@ -58,6 +58,10 @@ public class ProveedorCrudService extends CrudService implements CreacionEntidad
             throw new ExceptionGenerica("Busqueda vacia");
         }
         
-        return db.buscar(nombre);
+       Proveedor proveedor = db.buscar(nombre);
+       if(proveedor == null){
+           throw new ExceptionGenerica("no se encontró el proveedor");
+       }
+        return proveedor;
     }
 }

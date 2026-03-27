@@ -27,15 +27,10 @@ public class EnumsDB {
     private final String BUSCAR_NACIONALIDADES = "SELECT * FROM nacionalidad";
     private final String BUSCAR_TIPOS_SERVICIO = "SELECT * FROM tipo_servicio";
 
-    private Connection conexion;
-
-    public EnumsDB(Connection conexion) {
-        this.conexion = conexion;
-    }
 
     public ArrayList<MetodoPago> obtenerMetodosPago() throws ExceptionGenerica {
         ArrayList<MetodoPago> lista = new ArrayList<>();
-        try (PreparedStatement ps = conexion.prepareStatement(BUSCAR_METODOS_PAGO);
+        try (Connection conn = ConexionDB.getConnection();PreparedStatement ps = conn.prepareStatement(BUSCAR_METODOS_PAGO);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(new MetodoPago(rs.getString("metodo_pago_nombre"), rs.getInt("metodo_pago_id")));
@@ -48,7 +43,7 @@ public class EnumsDB {
 
     public ArrayList<Pais> obtenerPaises() throws ExceptionGenerica {
         ArrayList<Pais> lista = new ArrayList<>();
-        try (PreparedStatement ps = conexion.prepareStatement(BUSCAR_PAISES);
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_PAISES);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(new Pais(rs.getString("pais_nombre"), rs.getInt("pais_id")));
@@ -61,7 +56,7 @@ public class EnumsDB {
 
     public ArrayList<Nacionalidad> obtenerNacionalidades() throws ExceptionGenerica {
         ArrayList<Nacionalidad> lista = new ArrayList<>();
-        try (PreparedStatement ps = conexion.prepareStatement(BUSCAR_NACIONALIDADES);
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_NACIONALIDADES);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(new Nacionalidad(rs.getString("nacionalidad_nombre"), rs.getInt("nacionalidad_id")));
@@ -74,7 +69,7 @@ public class EnumsDB {
 
     public ArrayList<TipoServicio> obtenerTiposServicio() throws ExceptionGenerica {
         ArrayList<TipoServicio> lista = new ArrayList<>();
-        try (PreparedStatement ps = conexion.prepareStatement(BUSCAR_TIPOS_SERVICIO);
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_TIPOS_SERVICIO);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(new TipoServicio(rs.getString("tipo_servicio_nombre"), rs.getInt("tipo_servicio_id")));

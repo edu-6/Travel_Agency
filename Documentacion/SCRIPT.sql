@@ -48,7 +48,7 @@ CREATE TABLE proveedor(
     proveedor_id_tipo INTEGER NOT NULL,
     proveedor_contactos VARCHAR(40) NOT NULL,
     proveedor_id_pais INTEGER NOT NULL,
-    CONSTRAINT fk_proveedor_pais FOREIGN KEY (proveedor_id) REFERENCES pais(pais_id) ON DELETE CASCADE
+    CONSTRAINT fk_proveedor_pais FOREIGN KEY (proveedor_id_pais) REFERENCES pais(pais_id) ON DELETE CASCADE
 );
 
 CREATE TABLE destino (
@@ -141,3 +141,44 @@ insert into rol (rol_id, rol_nombre) values (1,'ADMIN');
 
 insert into empleado ( empleado_nombre, empleado_contraseña, empleado_id_rol,empleado_activo)
 values ('edu', '123',1,true);
+
+
+
+INSERT INTO rol (rol_id, rol_nombre) VALUES 
+(1, 'Atencion al Cliente'),
+(2, 'Operaciones'),
+(3, 'Administrador');
+
+INSERT INTO estado_reservacion (estado_reservacion_id, estado_reservacion_nombre) VALUES 
+(1, 'Pendiente'),
+(2, 'Confirmada'),
+(3, 'Cancelada'),
+(4, 'Completada');
+
+
+INSERT INTO tipo_servicio (tipo_servicio_id, tipo_servicio_nombre) VALUES 
+(1, 'Aerolinea'),
+(2, 'Hotel'),
+(3, 'Tour'),
+(4, 'Traslado'),
+(5, 'Otro');
+
+INSERT INTO metodo_pago (metodo_pago_id, metodo_pago_nombre) VALUES 
+(1, 'Efectivo'),
+(2, 'Tarjeta'),
+(3, 'Transferencia');
+
+
+INSERT INTO pais (pais_id, pais_nombre) VALUES 
+(1, 'Guatemala'),
+(2, 'Mexico'),
+(3, 'Estados Unidos'),
+(4, 'España'),
+(5, 'Colombia');
+
+INSERT INTO nacionalidad (nacionalidad_id, nacionalidad_nombre) VALUES 
+(1, 'Guatemalteca'),
+(2, 'Mexicana'),
+(3, 'Estadounidense'),
+(4, 'Española'),
+(5, 'Colombiana');

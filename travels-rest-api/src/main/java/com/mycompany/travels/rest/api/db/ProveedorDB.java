@@ -50,7 +50,7 @@ public class ProveedorDB implements CreacionEntidad<Proveedor>, EdicionEntidad<P
             ps.setInt(4, entidad.getId_pais());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al registrar proveedor");
+            throw new ExceptionGenerica("falló al registrar proveedor"+ e.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class ProveedorDB implements CreacionEntidad<Proveedor>, EdicionEntidad<P
             ps.setInt(5, entidad.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al actualizar proveedor");
+            throw new ExceptionGenerica("falló al actualizar proveedor" + e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class ProveedorDB implements CreacionEntidad<Proveedor>, EdicionEntidad<P
             ResultSet rs =  ps.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar proveedor");
+            throw new ExceptionGenerica("Falló al buscar proveedor"+ e.getMessage());
         }
     }
 
@@ -88,10 +88,10 @@ public class ProveedorDB implements CreacionEntidad<Proveedor>, EdicionEntidad<P
             if(rs.next()){
                 return extraer(rs);
             }
-            throw new NotFoundException("no se encontró el proveedor");
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar proveedor");
+            throw new ExceptionGenerica("Falló al buscar proveedor "+ e.getMessage());
         }
+        return null;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class ProveedorDB implements CreacionEntidad<Proveedor>, EdicionEntidad<P
                 lista.add(extraer(rs));
             }
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar proveedores");
+            throw new ExceptionGenerica("Falló al buscar proveedores" + e.getMessage());
         }
         return lista;
      }

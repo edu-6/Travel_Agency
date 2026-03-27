@@ -1,0 +1,20 @@
+<div class="card shadow border-0s">
+    <div class="card-header card text-center">
+        {{proveedor.nombre}}
+    </div>
+    <div class="card-body">
+        <i class=" card-body bi-geo-alt card-body">  {{proveedor.pais}}</i>
+        <h5 class="card-body">{{proveedor.tipoServicio}}</h5>
+        <i class="bi bi-telephone card-body">   {{proveedor.contactos}}</i>
+        <br>
+
+
+        <div class="row h-70">
+            <div class="col-10">
+                <a routerLink="/proveedores/editar-page/{{proveedor.nombre}}" class="btn btn-primary w-50 h-70 ">Editar</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
