@@ -10,8 +10,8 @@ import com.mycompany.travels.rest.api.exceptions.DatosMuyLargosException;
 import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.exceptions.NotFoundException;
-import com.mycompany.travels.rest.api.modelos.Proveedor;
-import com.mycompany.travels.rest.api.servicios.ProveedorCrudService;
+import com.mycompany.travels.rest.api.modelos.Destino;
+import com.mycompany.travels.rest.api.servicios.DestinosCrudService;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,38 +23,38 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author edu
  */
-@WebServlet(name = "ProveedoresResource", urlPatterns = {"/proveedores/*"})
-public class ProveedoresResource extends HttpServlet {
+@WebServlet(name = "DestinosResource", urlPatterns = {"/destinos/*"})
+public class DestinosResource extends HttpServlet {
 
     private final Gson gson = new Gson();
+    private DestinosCrudService crudService = new DestinosCrudService();
     private EscritorJson escritor = new EscritorJson();
-
-    private final ProveedorCrudService crudService = new ProveedorCrudService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Proveedor nuevo = gson.fromJson(req.getReader(), Proveedor.class);
+        Destino nuevo = gson.fromJson(req.getReader(), Destino.class);
 
         try {
             crudService.crear(nuevo);
             resp.setStatus(HttpServletResponse.SC_CREATED);
-            
+
         } catch (CamposVaciosException | DatosMuyLargosException ex) {
-            
+
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             escritor.escribirError(ex.getMessage(), resp);
-            
+
         } catch (EntidadDuplicadaException ex) {
-            
+
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             escritor.escribirError(ex.getMessage(), resp);
-            
+
         } catch (ExceptionGenerica ex) {
-            
+
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             escritor.escribirError(ex.getMessage(), resp);
         }
+
     }
 
     @Override
@@ -82,29 +82,43 @@ public class ProveedoresResource extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             escritor.escribirError(ex.getMessage(), resp);
         }
+
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         Proveedor edicion = gson.fromJson(req.getReader(), Proveedor.class);
-        
+        Destino edicion = gson.fromJson(req.getReader(), Destino.class);
         try {
             crudService.editar(edicion);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (EntidadDuplicadaException ex) {
-            
+
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             escritor.escribirError(ex.getMessage(), resp);
-            
+
         } catch (ExceptionGenerica ex) {
-            
+
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             escritor.escribirError(ex.getMessage(), resp);
         }
+
     }
-    
-    
-    
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id;
+        String idString = obtenerParametroRuta(req);
+        if(idString != null){
+            id = Integer.valueOf(idString);
+            try {
+                crudService.eliminar(id);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (ExceptionGenerica ex) {
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                escritor.escribirError(ex.getMessage(), resp);
+            }
+        }
+    }
 
     private String obtenerParametroRuta(HttpServletRequest req) {
         String ruta = req.getPathInfo();

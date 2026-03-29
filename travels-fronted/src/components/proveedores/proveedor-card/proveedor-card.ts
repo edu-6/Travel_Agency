@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProveedorResponse } from '../../../modelos/proveedores/ProveedorResponse';
 
@@ -12,8 +12,8 @@ export class ProveedorCard {
 
   @Input({required: true})
   proveedor !: ProveedorResponse;
-  
-  public eliminarAccion(){
 
-  }
+
+
+
 }

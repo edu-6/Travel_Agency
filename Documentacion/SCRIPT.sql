@@ -56,7 +56,7 @@ CREATE TABLE destino (
      destino_nombre VARCHAR(40) NOT NULL,
      destino_descripcion VARCHAR(300) NOT NULL,
      destino_mejor_epoca VARCHAR(100) NOT NULL, 
-     destino_url_imagen	 VARCHAR(400) NOT NULL,
+     destino_url_imagen	 VARCHAR(500) NOT NULL,
      destino_id_pais	 INTEGER NOT NULL,
      CONSTRAINT fk_destino_pais FOREIGN KEY (destino_id_pais) REFERENCES pais(pais_id) ON DELETE CASCADE
 );

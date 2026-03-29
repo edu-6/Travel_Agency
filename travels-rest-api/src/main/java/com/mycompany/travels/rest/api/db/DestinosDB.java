@@ -32,8 +32,8 @@ public class DestinosDB implements CreacionEntidad<Destino>, EdicionEntidad<Dest
     private static final String CREAR = "INSERT INTO destino (destino_nombre,destino_descripcion,destino_mejor_epoca, destino_url_imagen, destino_id_pais)"
             + "VALUES (?,?,?,?,?) ";
     
-    private static final String EDITAR = "UPDATE destino SET destino_nombre = ?, destino_descripcion = ?, destino_mejor__epoca = ?, destino_url_imagen = ?"
-            + " destino_id_pais = ? WHERE destino_id = ?";
+    private static final String EDITAR = "UPDATE destino SET destino_nombre = ?, destino_descripcion = ?, destino_mejor_epoca = ?, destino_url_imagen = ?,"
+            + " destino_id_pais = ? WHERE destino_id = ? ";
     
     private static final String EXISTE = "select destino_nombre FROM destino where destino_nombre = ?";
     
@@ -71,7 +71,7 @@ public class DestinosDB implements CreacionEntidad<Destino>, EdicionEntidad<Dest
             ps.setInt(6, entidad.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al actualizar destino");
+            throw new ExceptionGenerica("falló al actualizar destino "+ e.getMessage() );
         }
     }
 
@@ -82,7 +82,7 @@ public class DestinosDB implements CreacionEntidad<Destino>, EdicionEntidad<Dest
             ResultSet rs =  ps.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar destino");
+            throw new ExceptionGenerica("Falló al buscar destino "+ e.getMessage());
         }
     }
 
@@ -95,9 +95,9 @@ public class DestinosDB implements CreacionEntidad<Destino>, EdicionEntidad<Dest
             if(rs.next()){
                 return extraer(rs);
             }
-            throw new NotFoundException("no se encontró el destino");
+            return null;
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar el destino");
+            throw new ExceptionGenerica("Falló al buscar el destino "+ e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class DestinosDB implements CreacionEntidad<Destino>, EdicionEntidad<Dest
                 lista.add(extraer(rs));
             }
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar destinos");
+            throw new ExceptionGenerica("Falló al buscar destinos "+e.getMessage());
         }
         return lista;
      }
@@ -134,7 +134,7 @@ public class DestinosDB implements CreacionEntidad<Destino>, EdicionEntidad<Dest
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al eliminar el destino");
+            throw new ExceptionGenerica("Falló al eliminar el destino "+ e.getMessage());
         }
     }
     

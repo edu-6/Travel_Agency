@@ -76,8 +76,6 @@ export class ProveedorForm implements OnInit {
     this.intentoEnviarlo = true;
 
     if (!this.formulario.valid) return;
-    console.log("enviando");
-
     let nuevo: ProveedorRequest = this.formulario.value as ProveedorRequest;
 
 

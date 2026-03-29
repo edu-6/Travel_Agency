@@ -50,7 +50,13 @@ public class DestinosCrudService extends CrudService implements CreacionEntidad<
         if(nombre == null || nombre.isBlank()){
             throw new ExceptionGenerica("Busqueda vacia");
         }
-        return db.buscar(nombre);
+        
+        Destino destino = db.buscar(nombre);
+        if(destino == null){
+            throw new ExceptionGenerica("No se encontró el destino");
+        }
+        
+        return destino;
     }
     
 

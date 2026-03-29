@@ -1,0 +1,42 @@
+<div class="card shadow h-100">
+    <div class="card-header text-center bg-light">
+        <div class="fw-bold fs-5 text-truncate">
+            {{destino.nombre}}
+        </div>
+    </div>
+
+    <div class="card-body d-flex flex-column">
+        <div class="mb-3 text-muted small">
+            <i class="bi bi-geo-alt-fill text-danger"></i> {{destino.pais}}
+        </div>
+
+        <div class="flex-grow-1 d-flex justify-content-center align-items-center mb-3">
+            @if(destino.urlImagen){
+            <img [src]="destino.urlImagen" class="img-fluid rounded shadow-sm"
+                style="max-height: 160px; object-fit: cover;" alt="{{destino.nombre}}">
+            }
+        </div>
+
+        <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-2">
+                @if(true){
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal" (click)="eliminarAccion()">
+                    <i class="bi bi-trash"></i>
+                </button>
+            
+                
+                <a [routerLink]="['/destinos/editar-page', destino.nombre]" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                }
+            </div>
+
+            @if(true){
+            <a [routerLink]="['/juegos/detalles', destino.nombre]" class="btn btn-primary btn-sm px-3">
+                <i class="bi bi-eye-fill me-1"></i> Ver detalles
+            </a>
+            }
+        </div>
+    </div>
+</div>

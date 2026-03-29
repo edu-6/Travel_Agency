@@ -13,7 +13,7 @@ import java.io.IOException;
  *
  * @author edu
  */
-public class EscritoriJson {
+public class EscritorJson {
     private final Gson gson = new Gson();
     
     public void escribirJson(HttpServletResponse res, Object data) throws IOException {
