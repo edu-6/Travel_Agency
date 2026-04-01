@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, input, Input, model, OnInit, signal, ViewChild } from '@angular/core';
 import { Header } from "../../../shared/header/header";
 import { EnumsService } from '../../../services/login/enums-service';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DestinoRequest } from '../../../modelos/destinos/destino-request';
 import { Pais } from '../../../modelos/enums/pais-enum';
 import { ErrorBackend } from '../../../modelos/ErrorBackend';
@@ -15,14 +15,18 @@ import { PaquetesService } from '../../../services/login/paquetes-service';
 
 @Component({
   selector: 'app-paquete-form',
-  imports: [ReactiveFormsModule, PaqueteServicioForm],
+  imports: [ReactiveFormsModule, PaqueteServicioForm, RouterLink],
   templateUrl: './paquete-form.html',
   styleUrl: './paquete-form.css',
 })
 export class PaqueteForm implements OnInit {
 
+
   @Input()
-  paqueteFull !: PaqueteGeneral;
+  paqueteFullParametro !: PaqueteGeneral;
+
+  paqueteFull = signal<PaqueteGeneral>({} as PaqueteGeneral);
+
   @ViewChild(PaqueteServicioForm) componenteHijo!: PaqueteServicioForm;
 
   paises = signal<Pais[] | null>(null);
@@ -38,7 +42,7 @@ export class PaqueteForm implements OnInit {
   mensajeEdicion: string = "Edicion paquete";
 
 
-  enEdicion: boolean = false;
+  enEdicion = signal<boolean>(false);
   hayLinkImagen = signal<boolean>(false);
   hayError = signal<boolean>(false);
   intentoEnviarlo = signal<boolean>(false);
@@ -52,13 +56,15 @@ export class PaqueteForm implements OnInit {
 
 
   ngOnInit(): void {
-    this.enEdicion = this.paqueteFull != null;
+    this.instanciarFormulario();
+    this.enEdicion.set(this.paqueteFullParametro != null);
 
     this.cargarDestinos();
-    this.instanciarFormulario();
 
-    if (this.enEdicion) {
-      this.formulario.patchValue(this.paqueteFull);
+    if (this.enEdicion()) {
+      this.paqueteFull.set(this.paqueteFullParametro);
+      this.formulario.reset(this.paqueteFull().paquete);
+      console.log(this.paqueteFull().paquete.activo);
     }
   }
 
@@ -85,7 +91,7 @@ export class PaqueteForm implements OnInit {
 
     const nuevo = this.instanciarPaqueteFull();
 
-    if (this.enEdicion) {
+    if (this.enEdicion()) {
       this.editar(nuevo);
     } else {
       this.crear(nuevo);

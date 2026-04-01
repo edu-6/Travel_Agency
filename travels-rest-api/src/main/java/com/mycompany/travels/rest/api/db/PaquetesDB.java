@@ -155,7 +155,8 @@ public class PaquetesDB implements CreacionReturnId<Paquete>, EdicionEntidad<Paq
                 rs.getDouble("paquete_precio"),
                 rs.getDouble("paquete_ganancia"),
                 rs.getInt("paquete_id"),
-                rs.getInt("paquete_id_destino")
+                rs.getInt("paquete_id_destino"),
+                rs.getBoolean("paquete_activo")
         );
     }
 

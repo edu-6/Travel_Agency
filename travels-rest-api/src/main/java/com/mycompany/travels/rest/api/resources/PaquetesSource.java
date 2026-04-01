@@ -11,6 +11,8 @@ import com.mycompany.travels.rest.api.exceptions.DatosMuyLargosException;
 import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.exceptions.SinGananciaException;
+import com.mycompany.travels.rest.api.modelos.Paquete;
+import com.mycompany.travels.rest.api.servicios.PaquetesCrudService;
 import com.mycompany.travels.rest.api.servicios.PaquetesCrudServiceGlobal;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -30,6 +32,8 @@ public class PaquetesSource extends HttpServlet {
     private EscritorJson escritor = new EscritorJson();
     private Gson gson = new Gson();
     private PaquetesCrudServiceGlobal crudService = new PaquetesCrudServiceGlobal();
+    private PaquetesCrudService paquetesCrudService = new PaquetesCrudService();
+    
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -101,7 +105,7 @@ public class PaquetesSource extends HttpServlet {
         
         if(esNumero(ruta)){
             try {
-                ArrayList<PaqueteGeneral> lista = crudService.buscarVariosInt(Integer.valueOf(ruta));
+                ArrayList<Paquete> lista = paquetesCrudService.buscarVariosInt(Integer.valueOf(ruta));
                 resp.setStatus(HttpServletResponse.SC_OK);
                 escritor.escribirJson(resp, lista);
             } catch (ExceptionGenerica ex) {

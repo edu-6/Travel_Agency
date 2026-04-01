@@ -89,7 +89,14 @@
 
                     @if(!formularioActivo()){
                          @for( p of nuevos(); track p){
-                            <h1>Cosas</h1>
+                            <br>
+                            <app-paquete-servicio-card [paqueteServicio] ="p"
+                             (editarSeleccinado)="abrirFormularioModoEdicion($event)"
+                             (eliminarSeleccionado)="eliminarSeleccionado($event)"></app-paquete-servicio-card>
+                         }
+
+                         @for( p of existenes(); track p){
+                            <br>
                             <app-paquete-servicio-card [paqueteServicio] ="p"
                              (editarSeleccinado)="abrirFormularioModoEdicion($event)"
                              (eliminarSeleccionado)="eliminarSeleccionado($event)"></app-paquete-servicio-card>

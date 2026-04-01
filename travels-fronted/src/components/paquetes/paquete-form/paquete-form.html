@@ -16,7 +16,7 @@
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
 
-                            @if(enEdicion){
+                            @if(enEdicion()){
                             <h3 class="mb-5 text-center">{{mensajeEdicion}}</h3>
                             }@else {
                             <h3 class="mb-5 text-center">{{mensajeCreacion}}</h3>
@@ -123,16 +123,23 @@
                             </div>
 
                             <div class="mt-4">
-                                <button type="button" routerLink="/juegos"
+                                <button type="button" routerLink="/paquetes"
                                     class="btn btn-secondary py-3 w-100">Regresar</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                @if(enEdicion()){
+                <div class="col-12 col-lg-6">
+                    <app-paquete-servicio-form [existenesParametro]="paqueteFullParametro.servicios"></app-paquete-servicio-form>
+                </div>
+                }@else {
                 <div class="col-12 col-lg-6">
                     <app-paquete-servicio-form></app-paquete-servicio-form>
                 </div>
+                }
+
 
 
             </div>

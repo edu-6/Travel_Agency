@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProveedorResponse } from '../../../../modelos/proveedores/ProveedorResponse';
 import { ProveedoresService } from '../../../../services/login/proveedores-service';
@@ -30,23 +30,31 @@ export class PaqueteServicioForm implements OnInit {
 
   seleccionado !: PaqueteServicio;
 
-
   idActual: number = -1;
+
+  @Input()
+  existenesParametro !: PaqueteServicio[];
 
 
   constructor(private proveedoresService: ProveedoresService, private formBuilder: FormBuilder) {
 
   }
+  
 
   ngOnInit(): void {
     this.cargarProveedores();
     this.instanciarFormulario();
+
+    if(this.existenesParametro){
+      this.existenes.set(this.existenesParametro);
+    }
   }
 
 
   private instanciarFormulario() {
     this.formulario = this.formBuilder.group(
       {
+        id_paquete: [],
         id: [this.idActual],
         descripcion: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(300)]],
         id_proveedor: [Validators.required],

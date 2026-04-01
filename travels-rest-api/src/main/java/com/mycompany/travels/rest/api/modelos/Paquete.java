@@ -37,7 +37,8 @@ public class Paquete extends Entidad {
     }
 
     // para  mostrar/ buscar
-    public Paquete(String nombre, String descripcion, String destino, int duracion, int capacidadMaxima, double precioVenta, double ganancia, int id, int id_destino) {
+    public Paquete(String nombre, String descripcion, String destino, int duracion, int capacidadMaxima,
+            double precioVenta, double ganancia, int id, int id_destino, boolean activo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.destino = destino;
@@ -47,6 +48,7 @@ public class Paquete extends Entidad {
         this.id = id;
         this.id_destino = id_destino;
         this.ganancia = ganancia;
+        this.activo = activo;
     }
 
     @Override

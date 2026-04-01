@@ -17,6 +17,24 @@
             }
         </div>
 
+        <div class="flex-grow-1 d-flex justify-content-center align-items-center mb-4">
+            <div class="card" style="width: 100rem;">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">Descripcion</h6>
+                    <p class="card-text">{{destino.descripcion}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 d-flex justify-content-center align-items-center mb-4">
+            <div class="card" style="width: 100rem;">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">Mejor epoca</h6>
+                    <p class="card-text">{{destino.mejorEpoca}}</p>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
             <div class="d-flex gap-2">
                 @if(true){
@@ -24,15 +42,15 @@
                     data-bs-target="#deleteModal" (click)="eliminarAccion()">
                     <i class="bi bi-trash"></i>
                 </button>
-            
-                
+
+
                 <a [routerLink]="['/destinos/editar-page', destino.nombre]" class="btn btn-outline-primary btn-sm">
                     <i class="bi bi-pencil-square"></i>
                 </a>
                 }
             </div>
 
-            @if(true){
+            @if(false){
             <a [routerLink]="['/juegos/detalles', destino.nombre]" class="btn btn-primary btn-sm px-3">
                 <i class="bi bi-eye-fill me-1"></i> Ver detalles
             </a>
