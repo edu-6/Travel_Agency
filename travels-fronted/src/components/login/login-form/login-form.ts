@@ -4,7 +4,7 @@ import { UsuarioLoginRequest } from '../../../modelos/login/LoginRequest';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { UsuarioLoginResponse } from '../../../modelos/login/LoginResponse';
-import { LoginServicio } from '../../../services/login/loginService';
+import { AutenticacionServicio } from '../../../services/login/autenficacion-service';
 import { ErrorBackend } from '../../../modelos/ErrorBackend';
 @Component({
   selector: 'app-login-form',
@@ -21,7 +21,7 @@ export class LoginForm implements OnInit {
   btnPresionado: boolean = false;
   loginFallido: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private LoginServicio: LoginServicio, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private autenticacionService: AutenticacionServicio, private router: Router) {
 
   }
 
@@ -37,52 +37,24 @@ export class LoginForm implements OnInit {
   }
 
 
-  public enviar(): void {
-    this.btnPresionado = true;
-
-    if (this.formulario.valid) {
-      this.empleadoLoginRequest = this.formulario.value as UsuarioLoginRequest;
-      this.LoginServicio.loguearUsuario(this.empleadoLoginRequest).subscribe({
-        next: (empleado: UsuarioLoginResponse) => {
-          localStorage.setItem('nombre', empleado.nombre);
-          localStorage.setItem('rol', empleado.rol);
-          localStorage.setItem('id', empleado.id.toString());
-          console.log("login correcto!");
-          this.router.navigate(["/inicio"]);
-
-        },
-        error: (error: any) => {
-          if (error.error) {
-            console.log('Eror encontrado:', error.error);
-          }
-          this.resetearFormulario();
-          this.loginFallido = true;
-        }
-      });
-    }
-
-  }
 
 
   public enviarFormulario(): void {
     this.btnPresionado = true;
 
     if (this.formulario.valid) {
-      this.empleadoLoginRequest = this.formulario.value as UsuarioLoginRequest;
-      this.LoginServicio.loguearUsuario(this.empleadoLoginRequest).subscribe({
-        next: (empleado: UsuarioLoginResponse) => {
-          localStorage.setItem('nombre', empleado.nombre);
-          localStorage.setItem('rol', empleado.rol);
-          localStorage.setItem('id', empleado.id.toString());
-          console.log("login correcto!");
-          this.router.navigate(["/home"]);
 
+      this.empleadoLoginRequest = this.formulario.value as UsuarioLoginRequest;
+
+      this.autenticacionService.login(this.empleadoLoginRequest).subscribe({
+        next: (empleado: UsuarioLoginResponse) => {
+
+          this.router.navigate(["/home"]);
         },
         error: (errorHttp: any) => {
+          
           const errorData: ErrorBackend = errorHttp.error;
-          alert(errorData.detalles);
-          console.error('Tipo de error:', errorData.motivo);
-          console.error('Mensaje del servidor:', errorData.detalles);
+          alert(errorData?.detalles || "Error en el servidor");
           this.loginFallido = true;
           this.resetearFormulario();
         }

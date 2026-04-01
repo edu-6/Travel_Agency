@@ -19,30 +19,30 @@ export class DestinosService {
 
   }
   public crear(nuevo: DestinoRequest): Observable<void> {
-    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'destinos', nuevo);
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/destinos', nuevo);
   }
 
   public obtenerTodos(): Observable<DestinoResponse[]> {
-    return this.httpCliente.get<DestinoResponse[]>(this.constantesRest.getApiURL() + 'destinos');
+    return this.httpCliente.get<DestinoResponse[]>(this.constantesRest.getApiURL() + 'api/destinos');
   }
 
 
   public buscarParaEditar(nombre: string): Observable<DestinoRequest> {
-    return this.httpCliente.get<DestinoRequest>(this.constantesRest.getApiURL() + 'destinos' + '/' + nombre);
+    return this.httpCliente.get<DestinoRequest>(this.constantesRest.getApiURL() + 'api/destinos' + '/' + nombre);
   }
 
 
   public buscarParaMostrar(nombre: string): Observable<DestinoResponse> {
-    return this.httpCliente.get<DestinoResponse>( `${this.constantesRest.getApiURL()}destinos/${nombre}`);
+    return this.httpCliente.get<DestinoResponse>( `${this.constantesRest.getApiURL()}api/destinos/${nombre}`);
   }
 
   public editarProvedor( edicion: DestinoRequest): Observable<void>{
-    return this.httpCliente.put<void>(this.constantesRest.getApiURL()+'destinos',edicion);
+    return this.httpCliente.put<void>(this.constantesRest.getApiURL()+'api/destinos',edicion);
   }
 
 
     public eliminar(nombre: string): Observable<void>{
-    return this.httpCliente.delete<void>(`${this.constantesRest.getApiURL()}destinos/${nombre}`);
+    return this.httpCliente.delete<void>(`${this.constantesRest.getApiURL()}api/destinos/${nombre}`);
   }
 
 

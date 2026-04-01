@@ -21,26 +21,26 @@ export class PaquetesService {
     
   }
   public crear(nuevo: PaqueteGeneral): Observable<void> {
-    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'paquetes', nuevo);
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/paquetes', nuevo);
   }
 
   public editarPaquete(edicion: PaqueteGeneral): Observable<void> {
-    return this.httpCliente.put<void>(this.constantesRest.getApiURL() + 'paquetes', edicion);
+    return this.httpCliente.put<void>(this.constantesRest.getApiURL() + 'api/paquetes', edicion);
   }
 
 
   public buscarParaEditar(nombre: string): Observable<PaqueteGeneral> {
-    return this.httpCliente.get<PaqueteGeneral>(this.constantesRest.getApiURL() + 'paquetes' + '/' + nombre);
+    return this.httpCliente.get<PaqueteGeneral>(this.constantesRest.getApiURL() + 'api/paquetes' + '/' + nombre);
   }
 
 
   public buscarPorDestino(idDestino: string): Observable<PaqueteResponse[]> {
-    return this.httpCliente.get<PaqueteResponse []>(`${this.constantesRest.getApiURL()}paquetes/${idDestino}`);
+    return this.httpCliente.get<PaqueteResponse []>(`${this.constantesRest.getApiURL()}api/paquetes/${idDestino}`);
   }
 
 
   public eliminarServicioEnPaquete(idServicio: string): Observable<void> {
-    return this.httpCliente.delete<void>(`${this.constantesRest.getApiURL()}paquetes/${idServicio}`);
+    return this.httpCliente.delete<void>(`${this.constantesRest.getApiURL()}api/paquetes/${idServicio}`);
   }
 
 

@@ -21,19 +21,19 @@ export class EnumsService {
   }
 
   public getPaises(): Observable<Pais[]> {
-    return this.httpCliente.get<Pais[]>(this.constantesRest.getApiURL() + 'enums/paises');
+    return this.httpCliente.get<Pais[]>(this.constantesRest.getApiURL() + 'api/enums/paises');
   }
 
   public getNacionalidades(): Observable<Nacionalidad[]> {
-    return this.httpCliente.get<Nacionalidad[]>(this.constantesRest.getApiURL() + 'enums/nacionalidades');
+    return this.httpCliente.get<Nacionalidad[]>(this.constantesRest.getApiURL() + 'api/enums/nacionalidades');
   }
 
   public getMetodosPago(): Observable<MetodoPago[]> {
-    return this.httpCliente.get<MetodoPago[]>(this.constantesRest.getApiURL() + 'enums/metodos-pago');
+    return this.httpCliente.get<MetodoPago[]>(this.constantesRest.getApiURL() + 'api/enums/metodos-pago');
   }
 
   public getTiposServicio(): Observable<TipoServicio[]> {
-    return this.httpCliente.get<TipoServicio[]>(this.constantesRest.getApiURL() + 'enums/tipos-servicio');
+    return this.httpCliente.get<TipoServicio[]>(this.constantesRest.getApiURL() + 'api/enums/tipos-servicio');
   }
 
 

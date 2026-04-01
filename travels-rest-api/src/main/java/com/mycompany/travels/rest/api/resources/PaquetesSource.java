@@ -26,7 +26,7 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-@WebServlet(name = "PaquetesSource", urlPatterns = {"/paquetes/*"})
+@WebServlet(name = "PaquetesSource", urlPatterns = {"/api/paquetes/*"})
 public class PaquetesSource extends HttpServlet {
 
     private EscritorJson escritor = new EscritorJson();

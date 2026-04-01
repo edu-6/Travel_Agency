@@ -19,25 +19,25 @@ export class ProveedoresService {
 
   }
   public crear(proveedor: ProveedorRequest): Observable<void> {
-    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'proveedores', proveedor);
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/proveedores', proveedor);
   }
 
   public obtenerTodos(): Observable<ProveedorResponse[]> {
-    return this.httpCliente.get<ProveedorResponse[]>(this.constantesRest.getApiURL() + 'proveedores');
+    return this.httpCliente.get<ProveedorResponse[]>(this.constantesRest.getApiURL() + 'api/proveedores');
   }
 
 
   public buscarParaEditar(nombre: string): Observable<ProveedorRequest> {
-    return this.httpCliente.get<ProveedorRequest>(this.constantesRest.getApiURL() + 'proveedores' + '/' + nombre);
+    return this.httpCliente.get<ProveedorRequest>(this.constantesRest.getApiURL() + 'api/proveedores' + '/' + nombre);
   }
 
 
   public buscarParaMostrar(nombre: string): Observable<ProveedorResponse> {
-    return this.httpCliente.get<ProveedorResponse>( `${this.constantesRest.getApiURL()}proveedores/${nombre}`);
+    return this.httpCliente.get<ProveedorResponse>( `${this.constantesRest.getApiURL()}api/proveedores/${nombre}`);
   }
 
   public editarProvedor( proveedor: ProveedorRequest): Observable<void>{
-    return this.httpCliente.put<void>(this.constantesRest.getApiURL()+'proveedores',proveedor);
+    return this.httpCliente.put<void>(this.constantesRest.getApiURL()+'api/proveedores',proveedor);
   }
 
 

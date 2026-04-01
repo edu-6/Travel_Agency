@@ -12,6 +12,7 @@ public class UsuarioLoginResponse {
     private String nombre;
     private int id;
     private String rol;
+    private String token;
 
     public UsuarioLoginResponse(String nombre, int id, String rol) {
         this.nombre = nombre;
@@ -42,6 +43,16 @@ public class UsuarioLoginResponse {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+    
+    
     
     
 }

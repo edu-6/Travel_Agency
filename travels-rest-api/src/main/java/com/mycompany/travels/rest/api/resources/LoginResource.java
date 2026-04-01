@@ -10,6 +10,7 @@ import com.mycompany.travels.rest.api.dtos.login.UsuarioLoginRequest;
 import com.mycompany.travels.rest.api.dtos.login.UsuarioLoginResponse;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.modelos.ErrorRequest;
+import com.mycompany.travels.rest.api.utils.JwtUtil;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author edu
  */
-@WebServlet(name = "LoginResource", urlPatterns = {"/login"})
+@WebServlet(name = "LoginResource", urlPatterns = {"/api/login"})
 public class LoginResource extends HttpServlet {
     
     private final Gson gson = new Gson();   
@@ -36,6 +37,9 @@ public class LoginResource extends HttpServlet {
         
         try {
             UsuarioLoginResponse loginReponse = db.loguear(loginRequest);
+            
+            String tokenGenerado = JwtUtil.generarToken(loginReponse.getNombre(), loginReponse.getRol());
+            loginReponse.setToken(tokenGenerado);
             
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write(gson.toJson(loginReponse));
