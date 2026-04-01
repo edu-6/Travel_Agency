@@ -26,36 +26,15 @@ public class PaqueteServicioCService extends CrudService implements CreacionEnti
 
     @Override
     public void crear(Paquete_servicio entidad) throws ExceptionGenerica {
-
         this.revisarDatosCorrectos(entidad);
-        this.asegurarGanancia(entidad);
         db.crear(entidad);
     }
-
-    /**
-     * Asegura que haya ganancia con el precio del servicio
-     * @param entidad
-     * @throws ExceptionGenerica
-     */
-    private void asegurarGanancia(Paquete_servicio entidad) throws ExceptionGenerica {
-        double precio = entidad.getPrecio();
-        double gastosPaquete = paquetesDB.sumarGastosPaquete(entidad.getId_paquete());
-        double precioPaquete = paquetesDB.obtenerPrecioPaquete(entidad.getId_paquete());
-        double ganaciaPaquete = precioPaquete - gastosPaquete;
-
-        double gananciaActualizada = ganaciaPaquete - precio;
-        if (gananciaActualizada <= 0) {
-            throw new ExceptionGenerica("El servicio no deja ganancias, eleve el precio del paquete GANANCIA" + gananciaActualizada);
-        }
-
-        paquetesDB.actualizarGanancia(entidad.getId_paquete(), gananciaActualizada);
-
-    }
+    
+    
 
     @Override
     public void editar(Paquete_servicio entidad) throws ExceptionGenerica {
         this.revisarDatosCorrectos(entidad);
-        this.asegurarGanancia(entidad);
         db.editar(entidad);
 
     }

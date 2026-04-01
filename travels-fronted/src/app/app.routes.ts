@@ -7,6 +7,9 @@ import { ProveedorEditarPage } from '../pages/Proveedores/proveedor-editar-page/
 import { DestinosPage } from '../pages/destinos/destinos-page/destinos-page';
 import { DestinosFormPage } from '../pages/destinos/destinos-form-page/destinos-form-page';
 import { DestinosEditarPage } from '../pages/destinos/destinos-editar-page/destinos-editar-page';
+import { PaquetesPage } from '../pages/paquetes/paquetes-page/paquetes-page';
+import { PaquetesFormPage } from '../pages/paquetes/paquetes-form-page/paquetes-form-page';
+import { PaquetesEditarPage } from '../pages/paquetes/paquetes-editar-page/paquetes-editar-page';
 
 export const routes: Routes = [
 
@@ -19,4 +22,9 @@ export const routes: Routes = [
     {path: "destinos", component:  DestinosPage},
     {path: "destinos/form-page", component:  DestinosFormPage},
     {path: "destinos/editar-page/:nombre", component:  DestinosEditarPage},
+
+
+    {path: "paquetes", component:  PaquetesPage},
+    {path: "paquetes/form-page", component: PaquetesFormPage},
+    {path: "paquetes/editar-page/:nombre", component:  PaquetesEditarPage},
 ];

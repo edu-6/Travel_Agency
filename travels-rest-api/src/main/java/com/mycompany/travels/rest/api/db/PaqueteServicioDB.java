@@ -40,12 +40,12 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
             + " servicio_paquete_id_proveedor= ?"
             + " WHERE servicio_paquete_id = ?";
 
-    private static final String BUSCAR_TODOS_PAQUETE = "select paquete_servicio.*, proveedor_nombre, paquete_nombre FROM servicio_paquete"
+    private static final String BUSCAR_TODOS_PAQUETE = "select servicio_paquete.*, proveedor_nombre, paquete_nombre FROM servicio_paquete"
             + " JOIN  proveedor ON servicio_paquete_id_proveedor = proveedor_id"
             + " JOIN  paquete ON servicio_paquete_id_paquete = paquete_id"
             + " WHERE servicio_paquete_id_paquete = ?";
 
-    private static final String BUSCAR_UNO = "select paquete_servicio.*, proveedor_nombre FROM servicio_paquete"
+    private static final String BUSCAR_UNO = "select servicio_paquete.*, proveedor_nombre FROM servicio_paquete"
             + " JOIN  proveedor ON servicio_paquete_id_proveedor = proveedor_id where servicio_paquete_id = ?";
 
     @Override
@@ -67,7 +67,7 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
             throw new ExceptionGenerica("falló al registrar servicio");
 
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al registrar servicio");
+            throw new ExceptionGenerica("falló al registrar servicio "+ e.getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
             ps.setInt(5, entidad.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al actualizar servicio");
+            throw new ExceptionGenerica("falló al actualizar servicio "+ e.getMessage());
         }
     }
     
@@ -97,7 +97,7 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
             }
             return lista;
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar servicio");
+            throw new ExceptionGenerica("Falló al buscar servicio "+ e.getMessage());
         }
     }
     
@@ -112,7 +112,7 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
             }
             throw new NotFoundException("no se encontró el servicio");
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar servicio");
+            throw new ExceptionGenerica("Falló al buscar servicio "+ e.getMessage());
         }
     }
 

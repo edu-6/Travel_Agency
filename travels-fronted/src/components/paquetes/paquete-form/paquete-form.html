@@ -1,0 +1,141 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+
+            <div class=" row align-items-start h-100">
+
+                <div class="col-12 col-md-10 col-lg-6">
+                    @if (hayError()) {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> {{mensajeError}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    }
+
+
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+
+                            @if(enEdicion){
+                            <h3 class="mb-5 text-center">{{mensajeEdicion}}</h3>
+                            }@else {
+                            <h3 class="mb-5 text-center">{{mensajeCreacion}}</h3>
+                            }
+
+                            <div class="row mb-4">
+
+                                <div class="col-md-6 mb-4 mb-md-0">
+
+                                    <label class="form-label">Nombre: </label>
+
+                                    <input type="text" class="form-control" name="name" formControlName="nombre"
+                                        [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            Nombre (Max 100)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="eventType" class="form-label">Destino</label>
+                                    <select id="eventType" name="eventType" class="form-control"
+                                        formControlName="id_destino"
+                                        [class.is-invalid]="formulario.controls['id_destino'].invalid && intentoEnviarlo()">
+
+                                        @for (d of destinos(); track d.id) {
+                                        <option [value]="d.id">
+                                            {{ d.nombre }}
+                                        </option>
+                                        }
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            Seleccione el destino
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Descripcion</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                    formControlName="descripcion" rows="3"
+                                    [class.is-invalid]="formulario.controls['descripcion'].invalid && intentoEnviarlo()"></textarea>
+                            </div>
+
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label for="limit" class="form-label">Duracion del viaje:</label>
+                                    <input type="number" class="form-control" id="limit" name="limit"
+                                        formControlName="duracion"
+                                        [class.is-invalid]="formulario.controls['duracion'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            Duracion
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 d-flex align-items-end pb-2">
+                                    <div class="  form-check form-switch">
+                                        <input class="form-check-input" formControlName="activo" type="checkbox"
+                                            role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label text-center" for="flexSwitchCheckDefault">
+                                            Paquete activo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label for="limit" class="form-label">Precio:</label>
+                                    <input type="number" class="form-control" id="limit" name="limit"
+                                        formControlName="precioVenta"
+                                        [class.is-invalid]="formulario.controls['precioVenta'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            Ingrese el precio
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="startDate" class="form-label">Cupo maximo:</label>
+                                    <input type="number" class="form-control" id="startDate" name="startDate"
+                                        formControlName="capacidadMaxima"
+                                        [class.is-invalid]="formulario.controls['capacidadMaxima'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            Cupo
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Guardar</button>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="button" routerLink="/juegos"
+                                    class="btn btn-secondary py-3 w-100">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <app-paquete-servicio-form></app-paquete-servicio-form>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+</form>

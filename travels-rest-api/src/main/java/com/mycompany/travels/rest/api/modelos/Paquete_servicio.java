@@ -80,4 +80,11 @@ public class Paquete_servicio extends Entidad {
     public String getNombreProveedor() {
         return nombreProveedor;
     }
+
+    public void setId_paquete(int id_paquete) {
+        this.id_paquete = id_paquete;
+    }
+    
+    
+    
 }

@@ -14,7 +14,7 @@ import com.mycompany.travels.rest.api.modelos.Entidad;
  */
 public abstract  class CrudService {
     
-    protected void revisarDatosCorrectos(Entidad entidad) throws CamposVaciosException, DatosMuyLargosException{
+    public void revisarDatosCorrectos(Entidad entidad) throws CamposVaciosException, DatosMuyLargosException{
         if(!entidad.datosCompletos()){
             throw new CamposVaciosException();
         }

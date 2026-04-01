@@ -53,7 +53,6 @@ public class Paquete extends Entidad {
     public boolean datosCompletos() {
         return nombre != null && !nombre.isBlank()
                 && descripcion != null && !descripcion.isBlank()
-                && precioVenta > 0
                 && duracion > 0
                 && capacidadMaxima > 0;
     }

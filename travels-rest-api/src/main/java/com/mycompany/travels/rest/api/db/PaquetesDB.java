@@ -7,6 +7,7 @@ package com.mycompany.travels.rest.api.db;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.exceptions.NotFoundException;
 import com.mycompany.travels.rest.api.interfaces.BuscarTodos;
+import com.mycompany.travels.rest.api.interfaces.BuscarVariosInt;
 import com.mycompany.travels.rest.api.interfaces.BusquedaUnitariaString;
 import com.mycompany.travels.rest.api.interfaces.CreacionReturnId;
 import com.mycompany.travels.rest.api.interfaces.EdicionEntidad;
@@ -25,7 +26,9 @@ import java.util.ArrayList;
  * @author edu
  */
 public class PaquetesDB implements CreacionReturnId<Paquete>, EdicionEntidad<Paquete>,
-        ExisteEntidad, BusquedaUnitariaString<Paquete>, ExtraerEntidad<Paquete>, BuscarTodos<Paquete> {
+        ExisteEntidad, BusquedaUnitariaString<Paquete>,
+        ExtraerEntidad<Paquete>, BuscarTodos<Paquete>,
+        BuscarVariosInt<Paquete>{
 
     private static final String CREAR = "INSERT INTO paquete "
             + "(paquete_nombre,"
@@ -57,6 +60,9 @@ public class PaquetesDB implements CreacionReturnId<Paquete>, EdicionEntidad<Paq
 
     private static final String BUSCAR_TODOS = "select paquete.*, destino_nombre FROM paquete"
             + " JOIN  destino ON paquete_id_destino = destino_id";
+    
+    private static final String BUSCAR_POR_DESTINO = "select paquete.*, destino_nombre FROM paquete"
+            + " JOIN  destino ON paquete_id_destino = destino_id where destino_id = ?";
     
     private static final String BUSCAR_PAQUETES_ACTIVOS = "select paquete.*, destino_nombre FROM paquete"
             + " JOIN  destino ON paquete_id_destino = destino_id where paquete_activo = 1";
@@ -220,6 +226,21 @@ public class PaquetesDB implements CreacionReturnId<Paquete>, EdicionEntidad<Paq
         } catch (SQLException e) {
             throw new ExceptionGenerica("falló al actualizar paquete");
         }
+    }
+
+    @Override
+    public ArrayList<Paquete> buscarVariosInt(int param) throws ExceptionGenerica {
+        ArrayList<Paquete> lista = new ArrayList();
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_DESTINO)) {
+            ps.setInt(1, param);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lista.add(extraer(rs));
+            }
+        } catch (SQLException e) {
+            throw new ExceptionGenerica("Falló al buscar paquetes por destino");
+        }
+        return lista;
     }
 
 }
