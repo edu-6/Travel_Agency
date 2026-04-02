@@ -10,21 +10,22 @@ import { DestinosEditarPage } from '../pages/destinos/destinos-editar-page/desti
 import { PaquetesPage } from '../pages/paquetes/paquetes-page/paquetes-page';
 import { PaquetesFormPage } from '../pages/paquetes/paquetes-form-page/paquetes-form-page';
 import { PaquetesEditarPage } from '../pages/paquetes/paquetes-editar-page/paquetes-editar-page';
+import { authGuard } from '../guardias/guardia';
 
 export const routes: Routes = [
 
     {path:"", component: LoginForm},
-    {path:"home", component: Home},
-    {path: "proveedores", component: ProveedoresPage},
-    {path: "proveedores/form-page", component:  ProveedorFormPage},
-    {path: "proveedores/editar-page/:nombre", component:  ProveedorEditarPage},
+    {path:"home", component: Home, canActivate: [authGuard]},
+    {path: "proveedores", component: ProveedoresPage, canActivate: [authGuard]},
+    {path: "proveedores/form-page", component:  ProveedorFormPage, canActivate: [authGuard]},
+    {path: "proveedores/editar-page/:nombre", component:  ProveedorEditarPage, canActivate: [authGuard]},
     
-    {path: "destinos", component:  DestinosPage},
-    {path: "destinos/form-page", component:  DestinosFormPage},
-    {path: "destinos/editar-page/:nombre", component:  DestinosEditarPage},
+    {path: "destinos", component:  DestinosPage, canActivate: [authGuard]},
+    {path: "destinos/form-page", component:  DestinosFormPage, canActivate: [authGuard]},
+    {path: "destinos/editar-page/:nombre", component:  DestinosEditarPage, canActivate: [authGuard]},
 
 
-    {path: "paquetes", component:  PaquetesPage},
-    {path: "paquetes/form-page", component: PaquetesFormPage},
-    {path: "paquetes/editar-page/:nombre", component:  PaquetesEditarPage},
+    {path: "paquetes", component:  PaquetesPage,canActivate: [authGuard]},
+    {path: "paquetes/form-page", component: PaquetesFormPage,canActivate: [authGuard]},
+    {path: "paquetes/editar-page/:nombre", component:  PaquetesEditarPage, canActivate: [authGuard]},
 ];

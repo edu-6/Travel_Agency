@@ -4,6 +4,7 @@ import { ProveedorResponse } from '../../../../modelos/proveedores/ProveedorResp
 import { ProveedoresService } from '../../../../services/login/proveedores-service';
 import { PaqueteServicio } from '../../../../modelos/proveedor-servicio/paquete-servicio';
 import { PaqueteServicioCard } from "../paquete-servicio-card/paquete-servicio-card";
+import { PaquetesService } from '../../../../services/login/paquetes-service';
 
 @Component({
   selector: 'app-paquete-servicio-form',
@@ -36,7 +37,8 @@ export class PaqueteServicioForm implements OnInit {
   existenesParametro !: PaqueteServicio[];
 
 
-  constructor(private proveedoresService: ProveedoresService, private formBuilder: FormBuilder) {
+  constructor(private proveedoresService: ProveedoresService,
+     private formBuilder: FormBuilder, private paquetesService : PaquetesService) {
 
   }
   
@@ -131,7 +133,8 @@ export class PaqueteServicioForm implements OnInit {
     let indice;
     if (existeEnDB) {
       this.existenes.update(lista => lista.filter(p => p.id !== seleccionado.id));
-      // borrar en la db
+      
+      this.eliminarServicioEnPaquete(seleccionado.id.toString());
     } else {
       this.nuevos.update(lista => lista.filter(p => p.id !== seleccionado.id));
     }
@@ -153,6 +156,20 @@ export class PaqueteServicioForm implements OnInit {
     if (proveedorSeleccionado) {
       nuevo.nombreProveedor = proveedorSeleccionado.nombre;
     }
+  }
+
+
+
+
+  private eliminarServicioEnPaquete(id: string){
+    this.paquetesService.eliminarServicioEnPaquete(id).subscribe({
+      next:() =>{
+
+      },
+      error :(httpError: any)=>{
+        console.log(httpError.error);
+      }
+    });
   }
 
 

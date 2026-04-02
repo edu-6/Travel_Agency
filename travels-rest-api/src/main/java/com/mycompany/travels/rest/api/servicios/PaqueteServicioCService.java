@@ -11,6 +11,7 @@ import com.mycompany.travels.rest.api.interfaces.BuscarVariosInt;
 import com.mycompany.travels.rest.api.interfaces.BusquedaUnitariaString;
 import com.mycompany.travels.rest.api.interfaces.CreacionEntidad;
 import com.mycompany.travels.rest.api.interfaces.EdicionEntidad;
+import com.mycompany.travels.rest.api.interfaces.EliminacionEntidad;
 import com.mycompany.travels.rest.api.modelos.Paquete_servicio;
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * @author edu
  */
 public class PaqueteServicioCService extends CrudService implements CreacionEntidad<Paquete_servicio>, EdicionEntidad<Paquete_servicio>,
-        BusquedaUnitariaString<Paquete_servicio>, BuscarVariosInt<Paquete_servicio> {
+        BusquedaUnitariaString<Paquete_servicio>, BuscarVariosInt<Paquete_servicio>, EliminacionEntidad{
 
     private final PaquetesDB paquetesDB = new PaquetesDB();
     private final PaqueteServicioDB db = new PaqueteServicioDB();
@@ -51,6 +52,11 @@ public class PaqueteServicioCService extends CrudService implements CreacionEnti
     @Override
     public ArrayList<Paquete_servicio> buscarVariosInt(int param) throws ExceptionGenerica {
         return db.buscarVariosInt(param);
+    }
+
+    @Override
+    public void eliminar(int id) throws ExceptionGenerica {
+        db.eliminar(id);
     }
 
 }

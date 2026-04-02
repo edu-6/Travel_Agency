@@ -12,6 +12,7 @@ import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.exceptions.SinGananciaException;
 import com.mycompany.travels.rest.api.modelos.Paquete;
+import com.mycompany.travels.rest.api.servicios.PaqueteServicioCService;
 import com.mycompany.travels.rest.api.servicios.PaquetesCrudService;
 import com.mycompany.travels.rest.api.servicios.PaquetesCrudServiceGlobal;
 import java.io.IOException;
@@ -33,10 +34,21 @@ public class PaquetesSource extends HttpServlet {
     private Gson gson = new Gson();
     private PaquetesCrudServiceGlobal crudService = new PaquetesCrudServiceGlobal();
     private PaquetesCrudService paquetesCrudService = new PaquetesCrudService();
+    private PaqueteServicioCService paqueteServicioCS = new PaqueteServicioCService();
     
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = this.obtenerParametroRuta(req);
+        
+        if(id != null && this.esNumero(id)){
+            try {
+                paqueteServicioCS.eliminar(Integer.valueOf(id));
+            } catch (ExceptionGenerica ex) {
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                escritor.escribirError(ex.getMessage(), resp);
+            }
+        }
 
     }
 
@@ -124,6 +136,8 @@ public class PaquetesSource extends HttpServlet {
         }
 
     }
+    
+    
 
     private String obtenerParametroRuta(HttpServletRequest req) {
         String ruta = req.getPathInfo();

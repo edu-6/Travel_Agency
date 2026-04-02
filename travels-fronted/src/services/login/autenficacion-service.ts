@@ -37,7 +37,7 @@ export class AutenticacionServicio{
   logout() {
     localStorage.clear(); 
     this.isAuthenticated.set(false); 
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   getToken(): string | null {

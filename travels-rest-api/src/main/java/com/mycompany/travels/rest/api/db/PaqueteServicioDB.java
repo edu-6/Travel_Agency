@@ -10,6 +10,7 @@ import com.mycompany.travels.rest.api.interfaces.BuscarVariosInt;
 import com.mycompany.travels.rest.api.interfaces.BusquedaUnitariaString;
 import com.mycompany.travels.rest.api.interfaces.CreacionReturnId;
 import com.mycompany.travels.rest.api.interfaces.EdicionEntidad;
+import com.mycompany.travels.rest.api.interfaces.EliminacionEntidad;
 import com.mycompany.travels.rest.api.interfaces.ExtraerEntidad;
 import com.mycompany.travels.rest.api.modelos.Paquete_servicio;
 import java.sql.Connection;
@@ -24,7 +25,8 @@ import java.util.ArrayList;
  * @author edu
  */
 public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, EdicionEntidad<Paquete_servicio>,
-        BusquedaUnitariaString<Paquete_servicio>, ExtraerEntidad<Paquete_servicio>, BuscarVariosInt<Paquete_servicio> {
+        BusquedaUnitariaString<Paquete_servicio>, ExtraerEntidad<Paquete_servicio>,
+        BuscarVariosInt<Paquete_servicio>, EliminacionEntidad {
 
     private static final String CREAR = "INSERT INTO servicio_paquete "
             + "(servicio_paquete_descripcion,"
@@ -47,6 +49,9 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
 
     private static final String BUSCAR_UNO = "select servicio_paquete.*, proveedor_nombre FROM servicio_paquete"
             + " JOIN  proveedor ON servicio_paquete_id_proveedor = proveedor_id where servicio_paquete_id = ?";
+    
+    
+    private static final String ELIMINAR = "delete from servicio_paquete where servicio_paquete_id = ?";
 
     @Override
     public int crear(Paquete_servicio entidad) throws ExceptionGenerica {
@@ -127,5 +132,16 @@ public class PaqueteServicioDB implements CreacionReturnId<Paquete_servicio>, Ed
                 rs.getString("paquete_nombre"),
                 rs.getString("proveedor_nombre")
         );
+    }
+
+    @Override
+    public void eliminar(int id) throws ExceptionGenerica {
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(ELIMINAR)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new ExceptionGenerica("Falló al eliminar servicio "+ e.getMessage());
+        }
+        
     }
 }

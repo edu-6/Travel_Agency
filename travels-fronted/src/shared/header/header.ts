@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AutenticacionServicio } from '../../services/login/autenficacion-service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
   styleUrl: './header.css',
 })
 export class Header {
-  constructor(private router: Router){
+  constructor(private router: Router, private autenticacionSerivice: AutenticacionServicio){
 
   }
   
@@ -18,9 +19,7 @@ export class Header {
 
 
   public logout(): void {
-    localStorage.removeItem("correo");
-    localStorage.removeItem("rol");
-    this.router.navigate(["/"]);
+    this.autenticacionSerivice.logout();
   }
 
 
