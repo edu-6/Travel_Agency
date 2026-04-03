@@ -10,7 +10,7 @@ CREATE TABLE rol (
 CREATE TABLE empleado (
      empleado_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
      empleado_nombre VARCHAR(100) NOT NULL UNIQUE,
-     empleado_contraseña VARCHAR(50) NOT NULL,
+     empleado_contraseña VARCHAR(800) NOT NULL,
      empleado_id_rol INTEGER NOT NULL,
      empleado_activo BOOLEAN NOT NULL,
      CONSTRAINT fk_empleado_rol FOREIGN KEY (empleado_id_rol) REFERENCES rol(rol_id) ON DELETE CASCADE
@@ -134,13 +134,6 @@ CREATE TABLE cancelacion(
 	cancelacion_cantidad_rembolso DECIMAL(15,2) NOT NULL,
 	CONSTRAINT fk_cancelacion_reservacion FOREIGN KEY (cancelacion_id_reservacion) REFERENCES reservacion(rs_numero_reservacion) ON DELETE CASCADE
 );
-
-
-
-insert into rol (rol_id, rol_nombre) values (1,'ADMIN');
-
-insert into empleado ( empleado_nombre, empleado_contraseña, empleado_id_rol,empleado_activo)
-values ('edu', '123',1,true);
 
 
 

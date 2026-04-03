@@ -14,7 +14,7 @@ export class Header {
   }
   
   public operador: boolean = true;
-  public administrativo: boolean = false;
+  public administrativo: boolean = true;
   public superAdmin: boolean = false;
 
 

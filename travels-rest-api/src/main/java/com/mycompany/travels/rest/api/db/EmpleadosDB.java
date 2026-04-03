@@ -17,6 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.mycompany.travels.rest.api.interfaces.BusquedaUnitariaString;
+import com.mycompany.travels.rest.api.interfaces.EliminacionEntidad;
+import com.mycompany.travels.rest.api.utils.HashUtil;
 import java.util.ArrayList;
 
 /**
@@ -24,70 +26,74 @@ import java.util.ArrayList;
  * @author edu
  */
 public class EmpleadosDB implements CreacionEntidad<Empleado>, EdicionEntidad<Empleado>,
-        ExisteEntidad, BusquedaUnitariaString<Empleado>, ExtraerEntidad<Empleado>,BuscarVariosInt<Empleado>{
+        ExisteEntidad, BusquedaUnitariaString<Empleado>, ExtraerEntidad<Empleado>, BuscarVariosInt<Empleado>,
+        EliminacionEntidad {
 
     private static final String CREAR = "INSERT INTO empleado (empleado_nombre,empleado_contraseña,empleado_id_rol,empleado_activo) "
             + "VALUES (?,?,?,?)";
-    private static final String EDITAR = "UPDATE empleado SET empleado_nombre = ?, empleado_contraseña = ?,"
+    private static final String EDITAR = "UPDATE empleado SET empleado_nombre = ?, "
             + "empleado_id_rol = ?, empleado_activo = ?  WHERE empleado_id = ?";
-    
+
     private static final String EXISTE = "select empleado_id FROM empleado where empleado_nombre = ?";
-    private static final String BUSCAR_UNO = "select empleado.*,rol_nombre FROM empleado"
+    private static final String BUSCAR_UNO = "select empleado.*,rol.* FROM empleado"
             + " JOIN rol ON rol_id = empleado_id_rol  where empleado_nombre = ?";
-    
-    private static final String BUSCAR_POR_ROL = "SELECT empleado.*,rol_nombre FROM empleado"
-            + " JOIN rol ON rol_id = empleado_id_rol  where rol_id = ?"
-            ;
+
+    private static final String BUSCAR_POR_ROL = "SELECT empleado.*,rol.* FROM empleado"
+            + " JOIN rol ON rol_id = empleado_id_rol  where rol_id = ?";
+
+    private static final String ELIMINAR = "delete from empleado where empleado_id = ?";
+
     @Override
     public void crear(Empleado entidad) throws ExceptionGenerica {
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CREAR)){
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CREAR)) {
+            
+            String contraseñaCifrada = HashUtil.sha256(entidad.getContraseña());
+            
             ps.setString(1, entidad.getNombre());
-            ps.setString(2, entidad.getContraseña());
+            ps.setString(2, contraseñaCifrada);
             ps.setInt(3, entidad.getIdRol());
-            ps.setBoolean(4, entidad.isActivo());
+            ps.setBoolean(4, true);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al registrar empleado");
+            throw new ExceptionGenerica("falló al registrar empleado "+e.getMessage());
         }
     }
 
     @Override
     public void editar(Empleado entidad) throws ExceptionGenerica {
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(EDITAR)){
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(EDITAR)) {
             ps.setString(1, entidad.getNombre());
-            ps.setString(2, entidad.getContraseña());
-            ps.setInt(3, entidad.getIdRol());
-            ps.setBoolean(4, entidad.isActivo());
-            ps.setInt(5, entidad.getId());
+            ps.setInt(2, entidad.getIdRol());
+            ps.setBoolean(3, true);
+            ps.setInt(4, entidad.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("falló al actualizar empleado");
+            throw new ExceptionGenerica("falló al actualizar empleado" + e.getMessage());
         }
     }
 
     @Override
     public boolean existeEntidad(String nombre) throws ExceptionGenerica {
-         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(EXISTE)){
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(EXISTE)) {
             ps.setString(1, nombre);
-            ResultSet rs =  ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar empleado");
+            throw new ExceptionGenerica("Falló al buscar empleado "+e.getMessage());
         }
     }
 
-
     @Override
     public Empleado buscar(String nombre) throws ExceptionGenerica {
-        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_UNO)){
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_UNO)) {
             ps.setString(1, nombre);
-            ResultSet rs =  ps.executeQuery();
-            if(rs.next()){
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
                 return extraer(rs);
             }
-            throw new NotFoundException("no se encontró el empleado");
+            return null;
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar empleado");
+            throw new ExceptionGenerica("Falló al buscar empleado "+e.getMessage());
         }
     }
 
@@ -95,7 +101,7 @@ public class EmpleadosDB implements CreacionEntidad<Empleado>, EdicionEntidad<Em
     public Empleado extraer(ResultSet rs) throws SQLException {
         return new Empleado(
                 rs.getString("empleado_nombre"),
-                rs.getString("empleado_contraseña"),
+                null,// no se envía la contraseña
                 rs.getString("rol_nombre"),
                 rs.getBoolean("empleado_activo"),
                 rs.getInt("empleado_id"),
@@ -114,8 +120,20 @@ public class EmpleadosDB implements CreacionEntidad<Empleado>, EdicionEntidad<Em
                 lista.add(extraer(rs));
             }
         } catch (SQLException e) {
-            throw new ExceptionGenerica("Falló al buscar empleado");
+            throw new ExceptionGenerica("Falló al buscar empleados "+e.getMessage());
         }
         return lista;
     }
+
+    @Override
+    public void eliminar(int id) throws ExceptionGenerica {
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(ELIMINAR)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new ExceptionGenerica("Falló al eliminar empleado " + e.getMessage());
+        }
+
+    }
+
 }

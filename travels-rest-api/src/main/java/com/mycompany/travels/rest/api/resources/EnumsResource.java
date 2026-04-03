@@ -11,6 +11,7 @@ import com.mycompany.travels.rest.api.modelos.ErrorRequest;
 import com.mycompany.travels.rest.api.modelos.enums.MetodoPago;
 import com.mycompany.travels.rest.api.modelos.enums.Nacionalidad;
 import com.mycompany.travels.rest.api.modelos.enums.Pais;
+import com.mycompany.travels.rest.api.modelos.enums.Rol;
 import com.mycompany.travels.rest.api.modelos.enums.TipoServicio;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -59,6 +60,11 @@ public class EnumsResource extends HttpServlet {
                     ArrayList<MetodoPago> metodosPago = db.obtenerMetodosPago();
                     resp.setStatus(HttpServletResponse.SC_OK);
                     escribirJson(resp, metodosPago);
+                    break;
+                case "roles":
+                    ArrayList<Rol> roles = db.obtenerRoles();
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    escribirJson(resp, roles);
                     break;
             }
 

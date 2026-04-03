@@ -49,6 +49,16 @@ public class Empleado extends Entidad {
         return nombre.length() <=100
                && contraseña.length() <= 50;
     }
+    
+    public boolean datosCompletosEditar() {
+        return nombre != null
+               && !nombre.isBlank();
+    }
+
+    
+    public boolean datosTamañoCorrectoEditar() {
+        return nombre.length() <=100;
+    }
 
     public String getNombreRol() {
         return nombreRol;

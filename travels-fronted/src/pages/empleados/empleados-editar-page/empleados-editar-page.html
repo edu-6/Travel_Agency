@@ -1,0 +1,8 @@
+<app-header></app-header>
+
+
+@if(empeadoEncontrado()){
+    <app-empleado-form [empleadoEdicion]="empleado"></app-empleado-form>
+}@else {
+    <h1>No se encontró el usuario </h1>
+}

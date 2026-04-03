@@ -9,6 +9,7 @@ import com.mycompany.travels.rest.api.dtos.paquete.PaqueteGeneral;
 import com.mycompany.travels.rest.api.exceptions.CamposVaciosException;
 import com.mycompany.travels.rest.api.exceptions.DatosMuyLargosException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
+import com.mycompany.travels.rest.api.exceptions.NotFoundException;
 import com.mycompany.travels.rest.api.exceptions.SinGananciaException;
 import com.mycompany.travels.rest.api.interfaces.BuscarTodos;
 import com.mycompany.travels.rest.api.interfaces.BuscarVariosInt;
@@ -69,6 +70,9 @@ public class PaquetesCrudServiceGlobal implements CreacionEntidad<PaqueteGeneral
     public PaqueteGeneral buscar(String nombre) throws ExceptionGenerica {
 
         Paquete paquete = paquetesService.buscar(nombre);
+        if(paquete == null){
+            throw new NotFoundException("no se encontró el paquete con nombre: "+ nombre);
+        }
         ArrayList<Paquete_servicio> lista = serviciosService.buscarVariosInt(paquete.getId());
 
         return new PaqueteGeneral(paquete, lista);

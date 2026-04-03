@@ -5,10 +5,13 @@
 package com.mycompany.travels.rest.api.servicios;
 
 import com.mycompany.travels.rest.api.db.EmpleadosDB;
+import com.mycompany.travels.rest.api.exceptions.CamposVaciosException;
+import com.mycompany.travels.rest.api.exceptions.DatosMuyLargosException;
 import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.interfaces.CreacionEntidad;
 import com.mycompany.travels.rest.api.interfaces.EdicionEntidad;
+import com.mycompany.travels.rest.api.interfaces.EliminacionEntidad;
 import com.mycompany.travels.rest.api.modelos.Empleado;
 import java.util.ArrayList;
 
@@ -16,7 +19,8 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-public class EmpleadosCrudService extends CrudService implements CreacionEntidad<Empleado>, EdicionEntidad<Empleado> {
+public class EmpleadosCrudService extends CrudService implements CreacionEntidad<Empleado>, EdicionEntidad<Empleado>,
+        EliminacionEntidad{
     
     private final EmpleadosDB db = new EmpleadosDB();
 
@@ -24,6 +28,10 @@ public class EmpleadosCrudService extends CrudService implements CreacionEntidad
     public void crear(Empleado entidad) throws ExceptionGenerica {
         
         revisarDatosCorrectos(entidad);
+        
+        if(entidad.getContraseña().length() < 6){
+            throw new ExceptionGenerica(" la contraseña debe ser de 6 o mas caracteres");
+        }
         
         if(db.existeEntidad(entidad.getNombre())){
             throw new EntidadDuplicadaException("El usuario "+ entidad.getNombre() + " ya existe!");
@@ -35,7 +43,14 @@ public class EmpleadosCrudService extends CrudService implements CreacionEntidad
 
     @Override
     public void editar(Empleado entidad) throws ExceptionGenerica {
-        revisarDatosCorrectos(entidad);
+        
+        if(!entidad.datosCompletosEditar()){
+             throw new CamposVaciosException();
+        }
+        if(!entidad.datosTamañoCorrectoEditar()){
+             throw new DatosMuyLargosException();
+        }
+        
         
         // si hay un nombre igual, verificar que tengan el mismo ID
         Empleado empleado = db.buscar(entidad.getNombre());
@@ -55,7 +70,16 @@ public class EmpleadosCrudService extends CrudService implements CreacionEntidad
             throw new ExceptionGenerica("Busqueda vacia");
         }
         
-        return db.buscar(nombre);
+        Empleado empleado = db.buscar((nombre));
+        if(empleado == null){
+            throw new ExceptionGenerica(" no encontró el empleado");
+        }
+        return empleado;
+    }
+
+    @Override
+    public void eliminar(int id) throws ExceptionGenerica {
+        db.eliminar(id);
     }
     
 }

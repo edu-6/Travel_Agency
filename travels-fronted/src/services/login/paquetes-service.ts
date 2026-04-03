@@ -30,7 +30,7 @@ export class PaquetesService {
 
 
   public buscarParaEditar(nombre: string): Observable<PaqueteGeneral> {
-    return this.httpCliente.get<PaqueteGeneral>(this.constantesRest.getApiURL() + 'api/paquetes' + '/' + nombre);
+    return this.httpCliente.get<PaqueteGeneral>(`${this.constantesRest.getApiURL()}api/paquetes/${nombre}`);
   }
 
 

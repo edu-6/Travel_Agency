@@ -8,6 +8,7 @@ import { Pais } from "../../modelos/enums/pais-enum";
 import { Nacionalidad } from "../../modelos/enums/nacionalidad-enum";
 import { MetodoPago } from "../../modelos/enums/metod-pago-enum";
 import { TipoServicio } from "../../modelos/enums/tipo-servicio-enum";
+import { Rol } from "../../modelos/enums/rol-enum";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,15 @@ export class EnumsService {
   public getTiposServicio(): Observable<TipoServicio[]> {
     return this.httpCliente.get<TipoServicio[]>(this.constantesRest.getApiURL() + 'api/enums/tipos-servicio');
   }
+
+
+
+  public getRoles(): Observable<Rol[]> {
+    return this.httpCliente.get<Rol[]>(this.constantesRest.getApiURL() + 'api/enums/roles');
+  }
+
+
+
 
 
 }

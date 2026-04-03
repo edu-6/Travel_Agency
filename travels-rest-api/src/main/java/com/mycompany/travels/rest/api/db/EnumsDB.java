@@ -8,6 +8,7 @@ import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.modelos.enums.MetodoPago;
 import com.mycompany.travels.rest.api.modelos.enums.Nacionalidad;
 import com.mycompany.travels.rest.api.modelos.enums.Pais;
+import com.mycompany.travels.rest.api.modelos.enums.Rol;
 import com.mycompany.travels.rest.api.modelos.enums.TipoServicio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +27,7 @@ public class EnumsDB {
     private final String BUSCAR_METODOS_PAGO = "SELECT * FROM metodo_pago";
     private final String BUSCAR_NACIONALIDADES = "SELECT * FROM nacionalidad";
     private final String BUSCAR_TIPOS_SERVICIO = "SELECT * FROM tipo_servicio";
+    private final String BUSCAR_ROLES = "SELECT * FROM rol";
 
 
     public ArrayList<MetodoPago> obtenerMetodosPago() throws ExceptionGenerica {
@@ -76,6 +78,22 @@ public class EnumsDB {
             }
         } catch (SQLException e) {
             throw new ExceptionGenerica("Error al cargar tipos de servicio");
+        }
+        return lista;
+    }
+    
+    
+    public ArrayList<Rol> obtenerRoles() throws ExceptionGenerica {
+        ArrayList<Rol> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(BUSCAR_ROLES);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                lista.add(new Rol(rs.getString("rol_nombre"), rs.getInt("rol_id")));
+            }
+        } catch (SQLException e) {
+            throw new ExceptionGenerica("Error al cargar los roles de usuario");
         }
         return lista;
     }

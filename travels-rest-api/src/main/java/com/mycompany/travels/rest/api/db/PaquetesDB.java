@@ -138,7 +138,7 @@ public class PaquetesDB implements CreacionReturnId<Paquete>, EdicionEntidad<Paq
             if (rs.next()) {
                 return extraer(rs);
             }
-            throw new NotFoundException("no se encontró el paquete");
+            return null;
         } catch (SQLException e) {
             throw new ExceptionGenerica("Falló al buscar paquete");
         }

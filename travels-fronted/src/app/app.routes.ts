@@ -11,21 +11,33 @@ import { PaquetesPage } from '../pages/paquetes/paquetes-page/paquetes-page';
 import { PaquetesFormPage } from '../pages/paquetes/paquetes-form-page/paquetes-form-page';
 import { PaquetesEditarPage } from '../pages/paquetes/paquetes-editar-page/paquetes-editar-page';
 import { authGuard } from '../guardias/guardia';
+import { EmpleadosPage } from '../pages/empleados/empleados-page/empleados-page';
+import { EmpleadosFormPage } from '../pages/empleados/empleados-form-page/empleados-form-page';
+import { EmpleadosEditarPage } from '../pages/empleados/empleados-editar-page/empleados-editar-page';
 
 export const routes: Routes = [
 
+    // ejemplo 
+    //{path: "proveedores", component: ProveedoresPage, canActivate: [authGuard]},
+
     {path:"", component: LoginForm},
-    {path:"home", component: Home, canActivate: [authGuard]},
+    {path:"home", component: Home, },
+
     {path: "proveedores", component: ProveedoresPage, canActivate: [authGuard]},
     {path: "proveedores/form-page", component:  ProveedorFormPage, canActivate: [authGuard]},
     {path: "proveedores/editar-page/:nombre", component:  ProveedorEditarPage, canActivate: [authGuard]},
     
-    {path: "destinos", component:  DestinosPage, canActivate: [authGuard]},
-    {path: "destinos/form-page", component:  DestinosFormPage, canActivate: [authGuard]},
+    {path: "destinos", component:  DestinosPage,canActivate: [authGuard]},
+    {path: "destinos/form-page", component:  DestinosFormPage,canActivate: [authGuard]},
     {path: "destinos/editar-page/:nombre", component:  DestinosEditarPage, canActivate: [authGuard]},
 
 
     {path: "paquetes", component:  PaquetesPage,canActivate: [authGuard]},
-    {path: "paquetes/form-page", component: PaquetesFormPage,canActivate: [authGuard]},
+    {path: "paquetes/form-page", component: PaquetesFormPage, canActivate: [authGuard]},
     {path: "paquetes/editar-page/:nombre", component:  PaquetesEditarPage, canActivate: [authGuard]},
+
+
+    {path: "empleados", component:  EmpleadosPage},
+    {path: "empleados/form-page", component: EmpleadosFormPage,},
+    {path: "empleados/editar-page/:nombre", component:  EmpleadosEditarPage, canActivate: [authGuard]},
 ];

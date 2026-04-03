@@ -5,16 +5,12 @@
 package com.mycompany.travels.rest.api.resources;
 
 import com.google.gson.Gson;
-import com.mycompany.travels.rest.api.dtos.paquete.PaqueteGeneral;
 import com.mycompany.travels.rest.api.exceptions.CamposVaciosException;
 import com.mycompany.travels.rest.api.exceptions.DatosMuyLargosException;
 import com.mycompany.travels.rest.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
-import com.mycompany.travels.rest.api.exceptions.SinGananciaException;
-import com.mycompany.travels.rest.api.modelos.Paquete;
-import com.mycompany.travels.rest.api.servicios.PaqueteServicioCService;
-import com.mycompany.travels.rest.api.servicios.PaquetesCrudService;
-import com.mycompany.travels.rest.api.servicios.PaquetesCrudServiceGlobal;
+import com.mycompany.travels.rest.api.modelos.Empleado;
+import com.mycompany.travels.rest.api.servicios.EmpleadosCrudService;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,55 +23,46 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-@WebServlet(name = "PaquetesSource", urlPatterns = {"/api/paquetes/*"})
-public class PaquetesSource extends HttpServlet {
+@WebServlet(name = "EmpleadosResource", urlPatterns = {"/api/empleados/*"})
+public class EmpleadosResource extends HttpServlet {
 
-    private EscritorJson escritor = new EscritorJson();
     private Gson gson = new Gson();
-    private PaquetesCrudServiceGlobal crudService = new PaquetesCrudServiceGlobal();
-    private PaquetesCrudService paquetesCrudService = new PaquetesCrudService();
-    private PaqueteServicioCService paqueteServicioCS = new PaqueteServicioCService();
-    
+    private EmpleadosCrudService crudService = new EmpleadosCrudService();
+    private EscritorJson escritor = new EscritorJson();
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = this.obtenerParametroRuta(req);
-        
-        if(id != null && this.esNumero(id)){
+        int id;
+        String idString = obtenerParametroRuta(req);
+        if(idString != null){
+            id = Integer.valueOf(idString);
             try {
-                paqueteServicioCS.eliminar(Integer.valueOf(id));
+                crudService.eliminar(id);
+                resp.setStatus(HttpServletResponse.SC_OK);
             } catch (ExceptionGenerica ex) {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 escritor.escribirError(ex.getMessage(), resp);
             }
         }
-
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PaqueteGeneral nuevo = gson.fromJson(req.getReader(), PaqueteGeneral.class);
+        Empleado empleado = gson.fromJson(req.getReader(), Empleado.class);
 
         try {
-            crudService.editar(nuevo);
-            resp.setStatus(HttpServletResponse.SC_OK);
-
+            crudService.editar(empleado);
         } catch (CamposVaciosException | DatosMuyLargosException ex) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             escritor.escribirError(ex.getMessage(), resp);
 
         } catch (EntidadDuplicadaException ex) {
-
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
+
             escritor.escribirError(ex.getMessage(), resp);
 
-        } catch (SinGananciaException ex) {
-
-            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            escritor.escribirError(ex.getMessage(), resp);
         } catch (ExceptionGenerica ex) {
-
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             escritor.escribirError(ex.getMessage(), resp);
         }
@@ -83,28 +70,22 @@ public class PaquetesSource extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PaqueteGeneral nuevo = gson.fromJson(req.getReader(), PaqueteGeneral.class);
+
+        Empleado empleado = gson.fromJson(req.getReader(), Empleado.class);
 
         try {
-            crudService.crear(nuevo);
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-
+            crudService.crear(empleado);
         } catch (CamposVaciosException | DatosMuyLargosException ex) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             escritor.escribirError(ex.getMessage(), resp);
 
         } catch (EntidadDuplicadaException ex) {
-
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
+
             escritor.escribirError(ex.getMessage(), resp);
 
-        } catch (SinGananciaException ex) {
-
-            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            escritor.escribirError(ex.getMessage(), resp);
         } catch (ExceptionGenerica ex) {
-
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             escritor.escribirError(ex.getMessage(), resp);
         }
@@ -112,14 +93,11 @@ public class PaquetesSource extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
         String ruta = obtenerParametroRuta(req);
-        System.out.println("RUTA LLEGANDO: [" + ruta+"]");
-        
         
         if(esNumero(ruta)){
             try {
-                ArrayList<Paquete> lista = paquetesCrudService.buscarVariosInt(Integer.valueOf(ruta));
+                ArrayList<Empleado> lista = crudService.buscarEmpleadosPorRol(Integer.valueOf(ruta));
                 resp.setStatus(HttpServletResponse.SC_OK);
                 escritor.escribirJson(resp, lista);
             } catch (ExceptionGenerica ex) {
@@ -128,7 +106,7 @@ public class PaquetesSource extends HttpServlet {
             }
         }else{
             try {
-                PaqueteGeneral paqueteGeneral = crudService.buscar(ruta);
+                Empleado paqueteGeneral = crudService.buscarEmpleado(ruta);
                 resp.setStatus(HttpServletResponse.SC_OK);
                 escritor.escribirJson(resp, paqueteGeneral);
             } catch (ExceptionGenerica ex) {
@@ -138,8 +116,6 @@ public class PaquetesSource extends HttpServlet {
         }
 
     }
-    
-    
 
     private String obtenerParametroRuta(HttpServletRequest req) {
         String ruta = req.getPathInfo();

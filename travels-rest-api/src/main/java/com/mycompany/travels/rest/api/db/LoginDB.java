@@ -9,6 +9,7 @@ import com.mycompany.travels.rest.api.dtos.login.UsuarioLoginRequest;
 import com.mycompany.travels.rest.api.exceptions.EmpleadoNotFoundException;
 import com.mycompany.travels.rest.api.exceptions.ExceptionGenerica;
 import com.mycompany.travels.rest.api.interfaces.ExtraerEntidad;
+import com.mycompany.travels.rest.api.utils.HashUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +26,11 @@ public class LoginDB implements ExtraerEntidad<UsuarioLoginResponse> {
 
     public UsuarioLoginResponse loguear(UsuarioLoginRequest request) throws ExceptionGenerica {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(ENCONTRAR_EMPLEADO)) {
+            
+            String contraseñaCifrada = HashUtil.sha256(request.getContraseña());
+            
             ps.setString(1, request.getNombre());
-            ps.setString(2, request.getContraseña());
+            ps.setString(2, contraseñaCifrada);
 
             try (ResultSet rs = ps.executeQuery();) {
                 if (rs.next()) {

@@ -1,0 +1,87 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <section class="vh-100">
+        <div class="container py-5 h-30">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-10 col-lg-5">
+
+
+                    @if (hayError()) {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error! </strong> {{mensajeError}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    }
+
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+                            @if(enEdicion){
+                            <h3 class="mb-5 text-center">{{mensajeEdicion}}</h3>
+                            }@else {
+                            <h3 class="mb-5 text-center">{{mensajeCreacion}}</h3>
+                            }
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label for="limit" class="form-label">Nombre:</label>
+                                    <input type="text" class="form-control" id="limit" name="limit"
+                                        formControlName="nombre"
+                                        [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo()"
+                                        >
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            URL MAX(500)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+
+                                    @if(!enEdicion){
+                                    <label class="form-label">Contraseña: </label>
+                                    <input type="text" class="form-control" id="limit" name="limit"
+                                        formControlName="contraseña"
+                                        [class.is-invalid]="formulario.controls['contraseña'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            Nombre (Max 30)
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="eventType" class="form-label">Rol:</label>
+                                    <select id="eventType" name="eventType" class="form-control" formControlName="idRol"
+                                        [class.is-invalid]="formulario.controls['idRol'].invalid && intentoEnviarlo()">
+                                        @for (rol of roles(); track rol.idRol) {
+                                        <option [value]="rol.idRol">
+                                            {{ rol.nombre}}
+                                        </option>
+                                        }
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="mt-4">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Guardar</button>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="button" routerLink="/empleados"
+                                    class="btn btn-secondary py-3 w-100">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

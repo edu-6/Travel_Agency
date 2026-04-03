@@ -24,7 +24,7 @@ export class PaquetesEditarPage implements OnInit {
   paqueteFull = signal<PaqueteGeneral>({} as PaqueteGeneral);
 
   constructor(private paquetesService: PaquetesService, private router: ActivatedRoute) {
-
+    
   }
 
 
